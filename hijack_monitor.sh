@@ -56,7 +56,11 @@ sleep 8m
 sudo kill $!
 
 # 生成差异文件 不包括appspot.com和wordpress.com
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com') > $TODAY_DIFF
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com') | mail -s "$TODAY_DIFF" "me@minganci.org"
+diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') > $TODAY_DIFF
+diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | mail -s "$TODAY_DIFF" "me@minganci.org"
+
+git add .
+git commit "$TODAY_DIFF"
+git push origin master
 
 popd
