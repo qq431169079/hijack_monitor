@@ -1,0 +1,2 @@
+# hijack_monitor
+监控每日alexa前一百万域名中被防火墙劫持的域名
