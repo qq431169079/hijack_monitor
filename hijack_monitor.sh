@@ -55,12 +55,17 @@ for line in stdin:
 sleep 8m
 sudo kill $!
 
-# 生成差异文件 不包括appspot.com和wordpress.com
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') > $TODAY_DIFF
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | mail -s "$TODAY_DIFF" "me@minganci.org"
+# 生成差异文件 不包括appspot.com和wordpress.com和一些代理和视频敏感词
+echo '今日新增' >> $TODAY_DIFF
+diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | grep '<' | cut -d ' ' -f 2 >> $TODAY_DIFF
+
+echo -e '\n\n\n今日消失' >> $TODAY_DIFF
+diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | grep '>' | cut -d ' ' -f 2 >> $TODAY_DIFF
+
+cat $TODAY_DIFF | mail -s "$TODAY_DIFF" "me@minganci.org"
 
 git add .
-git commit -m "$TODAY_DIFF"
+git commit -m "add: $TODAY_DIFF"
 git push origin master
 
 popd
