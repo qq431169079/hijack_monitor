@@ -60,7 +60,7 @@ diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|y
 diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | mail -s "$TODAY_DIFF" "me@minganci.org"
 
 git add .
-git commit "$TODAY_DIFF"
+git commit -m "$TODAY_DIFF"
 git push origin master
 
 popd
