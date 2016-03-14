@@ -46,8 +46,9 @@ from scapy.all import send
 from scapy.all import IP, UDP, DNS, DNSQR
 
 for line in stdin:
-    send(IP(dst="23.252.105.45")/UDP(dport=53)/DNS(
-        rd=1, qd=DNSQR(qname=line.strip())))
+    dns_query = IP(dst="23.252.105.45")/UDP(dport=53)/DNS(
+        rd=1, qd=DNSQR(qname=line.strip()))
+    send([dns_query, dns_query, dns_query])
 ' &> /dev/null
 
 # 休息三分钟后杀掉上个后台任务
