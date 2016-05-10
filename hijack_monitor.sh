@@ -4,10 +4,10 @@
 # 每日定时任务 追踪最新解封和被封域名
 
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
-TODAY_RECORD=$(date +%y_%m_%d_record)
-TODAY_VICTIM=$(date +%y_%m_%d_victim)
-TODAY_DIFF=$(date +%y_%m_%d_diff)
-YESTERDAY_RECORD=$(date -d yesterday +%y_%m_%d_record)
+TODAY_RECORD="log/$(date +%y_%m_%d_record)"
+TODAY_VICTIM="log/$(date +%y_%m_%d_victim)"
+TODAY_DIFF="log/$(date +%y_%m_%d_diff)"
+YESTERDAY_RECORD="log/$(date -d yesterday +%y_%m_%d_record)"
 
 # 从alexa下载每日更新的全球前1M域名
 pushd /home/nightwish/hijack_monitor
