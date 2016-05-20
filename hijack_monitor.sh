@@ -4,7 +4,7 @@
 # 每日定时任务 追踪最新解封和被封域名
 
 export LC_MESSAGES=C
-IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel'
+IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel\|somee'
 
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 TODAY_RECORD="log/$(date +%y_%m_%d_record)"
@@ -56,18 +56,10 @@ for line in stdin:
 
 # 休息三分钟后杀掉上个后台任务
 # http://stackoverflow.com/questions/1624691/linux-kill-background-task
-sleep 8m
+sleep 2m
 sudo kill $!
 
 # 生成差异文件 不包括appspot.com和wordpress.com和一些代理和视频敏感词
-echo '今日新增' >> $TODAY_DIFF
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | grep '<' | cut -d ' ' -f 2 >> $TODAY_DIFF
-
-echo -e '\n\n\n今日消失' >> $TODAY_DIFF
-diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | grep '>' | cut -d ' ' -f 2 >> $TODAY_DIFF
-
-cat $TODAY_DIFF | mail -s "$TODAY_DIFF" "me@minganci.org"
-
 { \
 	echo '今日新增'; \
 	comm -13 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
@@ -75,7 +67,7 @@ cat $TODAY_DIFF | mail -s "$TODAY_DIFF" "me@minganci.org"
 	echo -e '\n\n\n今日消失'; \
 	comm -23 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
 		|grep -v $IGNORE_PATTERN; \
-	} | mail -s "SECOND_$TODAY_DIFF" "me@minganci.org"
+} | mail -s "$TODAY_DIFF" "me@minganci.org"
 
 git add .
 git commit -m "add: $TODAY_DIFF"
