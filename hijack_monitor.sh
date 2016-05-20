@@ -3,6 +3,9 @@
 
 # 每日定时任务 追踪最新解封和被封域名
 
+export LC_MESSAGES=C
+IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel'
+
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 TODAY_RECORD="log/$(date +%y_%m_%d_record)"
 TODAY_VICTIM="log/$(date +%y_%m_%d_victim)"
@@ -64,6 +67,15 @@ echo -e '\n\n\n今日消失' >> $TODAY_DIFF
 diff <(sort $YESTERDAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') <(sort $TODAY_RECORD|uniq|grep -v 'appspot.com\|wordpress.com\|proxy\|youtube\|vpn\|tunnel') | grep '>' | cut -d ' ' -f 2 >> $TODAY_DIFF
 
 cat $TODAY_DIFF | mail -s "$TODAY_DIFF" "me@minganci.org"
+
+{ \
+	echo '今日新增'; \
+	comm -13 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
+		|grep -v $IGNORE_PATTERN; \
+	echo -e '\n\n\n今日消失'; \
+	comm -23 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
+		|grep -v $IGNORE_PATTERN; \
+	} | mail -s "SECOND_$TODAY_DIFF" "me@minganci.org"
 
 git add .
 git commit -m "add: $TODAY_DIFF"
