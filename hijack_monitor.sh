@@ -9,7 +9,7 @@ IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel\|somee'
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 TODAY_RECORD="log/$(date +%y_%m_%d_record)"
 TODAY_VICTIM="log/$(date +%y_%m_%d_victim)"
-TODAY_DIFF="log/$(date +%y_%m_%d_diff)"
+# TODAY_DIFF="log/$(date +%y_%m_%d_diff)"
 YESTERDAY_RECORD="log/$(date -d yesterday +%y_%m_%d_record)"
 
 # 从alexa下载每日更新的全球前1M域名
@@ -17,7 +17,7 @@ pushd /home/nightwish/hijack_monitor
 wget $ALEXA_DOWNLOAD_URL -O top1m.zip 2> /dev/null
 rm top-1m.csv
 unzip top1m.zip
-touch $TODAY_RECORD $TODAY_VICTIM $TODAY_DIFF
+touch $TODAY_RECORD $TODAY_VICTIM # $TODAY_DIFF
 
 # 打开监控 关注假域名的返回
 (sudo TODAY_RECORD=$TODAY_RECORD TODAY_VICTIM=$TODAY_VICTIM python -c '
