@@ -4,7 +4,7 @@
 # 每日定时任务 追踪最新解封和被封域名
 
 export LC_MESSAGES=C
-IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel\|somee'
+IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel\|somee\|tumblr'
 
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 TODAY_RECORD="log/$(date +%y_%m_%d_record)"
