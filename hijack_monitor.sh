@@ -67,10 +67,10 @@ sudo kill $!
 	echo -e '\n\n\n今日消失'; \
 	comm -23 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
 		|grep -v $IGNORE_PATTERN; \
-} | mail -s "$TODAY_DIFF" "me@minganci.org"
+} | mail -s "$(date +%y_%m_%d_hijack_diff)" "me@minganci.org"
 
 git add .
-git commit -m "add: $TODAY_DIFF"
+git commit -m "add: $(date +%y_%m_%d_hijack_diff)"
 git push origin master
 
 popd
