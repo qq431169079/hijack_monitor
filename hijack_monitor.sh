@@ -9,7 +9,7 @@ IGNORE_PATTERN='appspot\|wordpress\|proxy\|youtube\|vpn\|tunnel\|somee\|tumblr'
 ALEXA_DOWNLOAD_URL="http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 TODAY_RECORD="log/$(date +%y_%m_%d_record)"
 TODAY_VICTIM="log/$(date +%y_%m_%d_victim)"
-# TODAY_DIFF="log/$(date +%y_%m_%d_diff)"
+TODAY_DIFF="log/$(date +%y_%m_%d_diff)"
 YESTERDAY_RECORD="log/$(date -d yesterday +%y_%m_%d_record)"
 
 # 从alexa下载每日更新的全球前1M域名
@@ -67,7 +67,9 @@ sudo kill $!
 	echo -e '\n\n\n今日消失'; \
 	comm -23 <(sort -u $YESTERDAY_RECORD) <(sort -u $TODAY_RECORD) \
 		|grep -v $IGNORE_PATTERN; \
-} | mail -s "$(date +%y_%m_%d_hijack_diff)" "me@minganci.org"
+} > $TODAY_DIFF
+
+cat $TODAY_DIFF | mail -s "$(date +%y_%m_%d_hijack_diff)" "me@minganci.org"
 
 git add .
 git commit -m "add: $(date +%y_%m_%d_hijack_diff)"
