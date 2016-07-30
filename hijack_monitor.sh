@@ -76,5 +76,3 @@ git commit -m "add: $(date +%y_%m_%d_hijack_diff)"
 git push origin master
 
 popd
-
-/usr/local/bin/pushbullet 'hijack monitor work success !' &> /dev/null
